@@ -1,0 +1,85 @@
+// QuietPay - Private Payroll on Midnight
+// This project is built on the Midnight Network.
+// SPDX-License-Identifier: Apache-2.0
+pragma language_version >= 0.23;
+import CompactStandardLibrary;
+struct AdminSecretKey { bytes: Bytes<32>; }
+struct AdminPublicKey { bytes: Bytes<32>; }
+struct EmployeeSecretKey { bytes: Bytes<32>; }
+struct EmployeePublicKey { bytes: Bytes<32>; }
+struct ClaimAmount { amount: Uint<128>; }
+witness getAdminSecret(): AdminSecretKey;
+witness getEmployeeSecret(): EmployeeSecretKey;
+witness getClaimAmount(): ClaimAmount;
+export ledger _admin: AdminPublicKey;
+export ledger _totalFunded: Uint<128>;
+export ledger _totalClaimed: Uint<128>;
+export ledger _payrollRoot: Bytes<32>;
+export ledger _isFinalized: Boolean;
+export ledger _round: Counter;
+export ledger _usedNullifiers: Map<Bytes<32>, Boolean>;
+constructor(initialAdmin: AdminPublicKey) {
+    _admin = disclose(initialAdmin);
+    _totalFunded = 0;
+    _totalClaimed = 0;
+    _payrollRoot = pad(32, "quietpay:empty:v1");
+    _round.increment(1);
+    _isFinalized = false;
+}
+export circuit deriveAdminPublicKey(sk: AdminSecretKey): AdminPublicKey {
+    return AdminPublicKey { bytes: persistentHash<Vector<2, Bytes<32>>>([pad(32, "quietpay:admin:v1"), sk.bytes]) };
+}
+export circuit deriveEmployeePublicKey(sk: EmployeeSecretKey): EmployeePublicKey {
+    return EmployeePublicKey { bytes: persistentHash<Vector<2, Bytes<32>>>([pad(32, "quietpay:emp:v1"), sk.bytes]) };
+}
+export circuit deriveNullifier(sk: EmployeeSecretKey): Bytes<32> {
+    return persistentHash<Vector<2, Bytes<32>>>([pad(32, "quietpay:null:v1"), sk.bytes]);
+}
+export circuit fund(amount: Uint<128>): [] {
+    assert(_admin == deriveAdminPublicKey(getAdminSecret()), "Not authorized");
+    const MAX_U128: Uint<128> = 340282366920938463463374607431768211455 as Uint<128>;
+    assert(_totalFunded <= MAX_U128 - amount, "Fund overflow");
+    const newFunded: Uint<128> = (_totalFunded + amount) as Uint<128>;
+    _totalFunded = disclose(newFunded);
+}
+export circuit postRoot(newRoot: Bytes<32>): [] {
+    assert(_admin == deriveAdminPublicKey(getAdminSecret()), "Not authorized");
+    assert(_isFinalized == false, "Round already finalized");
+    _payrollRoot = disclose(newRoot);
+    _isFinalized = true;
+}
+export circuit claim(presentedNullifier: Bytes<32>): [] {
+    assert(_isFinalized == true, "Round not open for claims");
+    assert(!_usedNullifiers.member(disclose(presentedNullifier)), "Nullifier already used");
+    const expected: Bytes<32> = deriveNullifier(getEmployeeSecret());
+    assert(presentedNullifier == expected, "Nullifier mismatch");
+    const amt: Uint<128> = getClaimAmount().amount;
+    assert(amt >= 1, "Claim must be positive");
+    const MAX_U128B: Uint<128> = 340282366920938463463374607431768211455 as Uint<128>;
+    assert(_totalClaimed <= MAX_U128B - amt, "Claim overflow");
+    const newClaimed: Uint<128> = (_totalClaimed + amt) as Uint<128>;
+    assert(newClaimed <= _totalFunded, "Claims exceed funded total");
+    _usedNullifiers.insert(disclose(presentedNullifier), disclose(true));
+    _totalClaimed = disclose(newClaimed);
+}
+export circuit proveIncomeAbove(threshold: Uint<128>): Boolean {
+    assert(_isFinalized == true, "Round not finalized");
+    const amt: Uint<128> = getClaimAmount().amount;
+    assert(amt >= threshold, "Income below threshold");
+    return disclose(true);
+}
+export circuit nextRound(): [] {
+    assert(_admin == deriveAdminPublicKey(getAdminSecret()), "Not authorized");
+    assert(_isFinalized == true, "Finish current round first");
+    _round.increment(1);
+    _payrollRoot = pad(32, "quietpay:empty:v1");
+    _isFinalized = false;
+}
+export circuit totalFunded(): Uint<128> { return _totalFunded; }
+export circuit totalClaimed(): Uint<128> { return _totalClaimed; }
+export circuit isFinalized(): Boolean { return _isFinalized; }
+export circuit payrollRoot(): Bytes<32> { return _payrollRoot; }
+export circuit isNullifierUsed(n: Bytes<32>): Boolean {
+    if (!_usedNullifiers.member(disclose(n))) { return false; }
+    return _usedNullifiers.lookup(disclose(n));
+}
