@@ -1,0 +1,6 @@
+{
+  "framework": "vite",
+  "installCommand": "echo skip-root-install",
+  "buildCommand": "curl --proto '=https' --tlsv1.2 -LsSf https://github.com/midnightntwrk/compact/releases/latest/download/compact-installer.sh | sh && export PATH=$HOME/.compact/bin:$PATH && compact update 0.31.1 && npm install --legacy-peer-deps && npm run compact --workspace=@quietpay/contract && npm run build --workspace=@quietpay/ui",
+  "outputDirectory": "ui/dist"
+}
