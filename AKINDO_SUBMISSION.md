@@ -16,3 +16,6 @@ GitHub repo URL here after push. Add midnightntwrk topic.
 Demo video URL here. Deck PDF attached.
 ## Eligibility notes
 Mock tokens only. Apache-2.0. New Midnight code built Sep 8 to 15.
+See PROGRESS STATEMENT for Wave 1 proof of work.
+See JUDGING MAP for criterion evidence links.
+Contact via TEAM sheet after repo push.
