@@ -29,3 +29,5 @@ Nullifier binding is single round, multi round binding ships in Wave 2.
 Threshold proofs reveal only a boolean, amounts stay sealed.
 Public claim counts may reveal team size.
 No external audit yet, circuits are new code under review.
+Repo https://github.com/thirdbase1/quietpay-midnight with CI green and midnightntwrk topic.
+Contract address and tx hashes go here after preprod deploy.
