@@ -15,7 +15,7 @@
 
 /**
  * A Single Page Application (SPA) for connecting to and managing deployed
- * bulletin boards.
+ * QuietPay payrolls.
  *
  * @packageDocumentation
  */

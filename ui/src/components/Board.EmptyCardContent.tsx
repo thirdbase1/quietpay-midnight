@@ -27,14 +27,14 @@ import { TextPromptDialog } from './TextPromptDialog';
  * @internal
  */
 export interface EmptyCardContentProps {
-  /** A callback that will be called to create a new bulletin board. */
+  /** A callback that will be called to create a new QuietPay payroll. */
   onCreateBoardCallback: () => void;
-  /** A callback that will be called to join an existing bulletin board. */
+  /** A callback that will be called to join an existing QuietPay payroll. */
   onJoinBoardCallback: (contractAddress: ContractAddress) => void;
 }
 
 /**
- * Used when there is no board deployment to render a UI allowing the user to join or deploy bulletin boards.
+ * Used when there is no board deployment to render a UI allowing the user to join or deploy QuietPay payrolls.
  *
  * @internal
  */

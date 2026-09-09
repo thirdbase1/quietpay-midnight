@@ -55,26 +55,26 @@ import { NetworkId } from '@midnight-ntwrk/midnight-js-network-id';
 import type { UnboundTransaction } from '@midnight-ntwrk/midnight-js-types';
 
 /**
- * An in-progress bulletin board deployment.
+ * An in-progress QuietPay payroll deployment.
  */
 export interface InProgressBoardDeployment {
   readonly status: 'in-progress';
 }
 
 /**
- * A deployed bulletin board deployment.
+ * A deployed QuietPay payroll deployment.
  */
 export interface DeployedBoardDeployment {
   readonly status: 'deployed';
 
   /**
-   * The {@link DeployedQuietPayAPI} instance when connected to an on network bulletin board contract.
+   * The {@link DeployedQuietPayAPI} instance when connected to an on network QuietPay payroll contract.
    */
   readonly api: DeployedQuietPayAPI;
 }
 
 /**
- * A failed bulletin board deployment.
+ * A failed QuietPay payroll deployment.
  */
 export interface FailedBoardDeployment {
   readonly status: 'failed';
@@ -86,12 +86,12 @@ export interface FailedBoardDeployment {
 }
 
 /**
- * A bulletin board deployment.
+ * A QuietPay payroll deployment.
  */
 export type BoardDeployment = InProgressBoardDeployment | DeployedBoardDeployment | FailedBoardDeployment;
 
 /**
- * Provides access to bulletin board deployments.
+ * Provides access to QuietPay payroll deployments.
  */
 export interface DeployedBoardAPIProvider {
   /**
@@ -105,20 +105,20 @@ export interface DeployedBoardAPIProvider {
   readonly boardDeployments$: Observable<Array<Observable<BoardDeployment>>>;
 
   /**
-   * Joins or deploys a bulletin board contract.
+   * Joins or deploys a QuietPay payroll contract.
    *
    * @param contractAddress An optional contract address to use when resolving.
    * @returns An observable board deployment.
    *
    * @remarks
-   * For a given `contractAddress`, the method will attempt to find and join the identified bulletin board
+   * For a given `contractAddress`, the method will attempt to find and join the identified QuietPay payroll
    * contract; otherwise it will attempt to deploy a new one.
    */
   readonly resolve: (contractAddress?: ContractAddress) => Observable<BoardDeployment>;
 }
 
 /**
- * A {@link DeployedBoardAPIProvider} that manages bulletin board deployments in a browser setting.
+ * A {@link DeployedBoardAPIProvider} that manages QuietPay payroll deployments in a browser setting.
  *
  * @remarks
  * {@link BrowserDeployedBoardManager} configures and manages a connection to the Midnight Lace
