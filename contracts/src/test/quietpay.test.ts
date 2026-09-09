@@ -5,12 +5,20 @@ import { describe, it, expect } from "vitest";
 import { randomBytes } from "./utils.js";
 import { type QuietPayPrivateState } from "../witnesses.js";
 setNetworkId("undeployed");
-const makeState = (adminSecret: Uint8Array, employeeSecret: Uint8Array, claimAmount: bigint): QuietPayPrivateState => ({
+const makeState = (
+  adminSecret: Uint8Array,
+  employeeSecret: Uint8Array,
+  claimAmount: bigint,
+): QuietPayPrivateState => ({
   adminSecret,
   employeeSecret,
   claimAmount,
 });
-const fundedRound = (admin: Uint8Array, amount: bigint, root: Uint8Array): QuietPaySimulator => {
+const fundedRound = (
+  admin: Uint8Array,
+  amount: bigint,
+  root: Uint8Array,
+): QuietPaySimulator => {
   const sim = new QuietPaySimulator(makeState(admin, randomBytes(32), 0n));
   sim.fund(amount);
   sim.postRoot(root);
@@ -24,7 +32,9 @@ describe("QuietPay smart contract", () => {
     expect(sim0.getLedger()).toEqual(sim1.getLedger());
   });
   it("starts unfunded and unfinalized", () => {
-    const sim = new QuietPaySimulator(makeState(randomBytes(32), randomBytes(32), 0n));
+    const sim = new QuietPaySimulator(
+      makeState(randomBytes(32), randomBytes(32), 0n),
+    );
     const ledger = sim.getLedger();
     expect(ledger._totalFunded).toEqual(0n);
     expect(ledger._totalClaimed).toEqual(0n);
@@ -69,7 +79,9 @@ describe("QuietPay smart contract", () => {
     expect(() => sim.proveIncomeAbove(9000n)).toThrow();
   });
   it("rejects admin actions from non-admin callers", () => {
-    const sim = new QuietPaySimulator(makeState(randomBytes(32), randomBytes(32), 0n));
+    const sim = new QuietPaySimulator(
+      makeState(randomBytes(32), randomBytes(32), 0n),
+    );
     sim.switchPrivateState(makeState(randomBytes(32), randomBytes(32), 0n));
     expect(() => sim.fund(100n)).toThrow();
     expect(() => sim.postRoot(randomBytes(32))).toThrow();

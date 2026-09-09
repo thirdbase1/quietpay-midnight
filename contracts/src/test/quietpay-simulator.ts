@@ -17,14 +17,21 @@ export class QuietPaySimulator {
   circuitContext: CircuitContext<QuietPayPrivateState>;
   constructor(privateState: QuietPayPrivateState) {
     this.contract = new Contract<QuietPayPrivateState>(witnesses);
-    const { currentPrivateState, currentContractState, currentZswapLocalState } = this.contract.initialState(
+    const {
+      currentPrivateState,
+      currentContractState,
+      currentZswapLocalState,
+    } = this.contract.initialState(
       createConstructorContext(privateState, "0".repeat(64)),
     );
     this.circuitContext = {
       currentPrivateState,
       currentZswapLocalState,
       costModel: CostModel.initialCostModel(),
-      currentQueryContext: new QueryContext(currentContractState.data, sampleContractAddress()),
+      currentQueryContext: new QueryContext(
+        currentContractState.data,
+        sampleContractAddress(),
+      ),
     };
   }
   public switchPrivateState(privateState: QuietPayPrivateState) {
@@ -37,27 +44,43 @@ export class QuietPaySimulator {
     return this.circuitContext.currentPrivateState;
   }
   public fund(amount: bigint): Ledger {
-    this.circuitContext = this.contract.impureCircuits.fund(this.circuitContext, amount).context;
+    this.circuitContext = this.contract.impureCircuits.fund(
+      this.circuitContext,
+      amount,
+    ).context;
     return ledger(this.circuitContext.currentQueryContext.state);
   }
   public postRoot(root: Uint8Array): Ledger {
-    this.circuitContext = this.contract.impureCircuits.postRoot(this.circuitContext, root).context;
+    this.circuitContext = this.contract.impureCircuits.postRoot(
+      this.circuitContext,
+      root,
+    ).context;
     return ledger(this.circuitContext.currentQueryContext.state);
   }
   public claim(): Ledger {
-    this.circuitContext = this.contract.impureCircuits.claim(this.circuitContext).context;
+    this.circuitContext = this.contract.impureCircuits.claim(
+      this.circuitContext,
+    ).context;
     return ledger(this.circuitContext.currentQueryContext.state);
   }
   public proveIncomeAbove(threshold: bigint): boolean {
-    const { context, result } = this.contract.impureCircuits.proveIncomeAbove(this.circuitContext, threshold);
+    const { context, result } =
+      this.contract.impureCircuits.proveIncomeAbove(
+        this.circuitContext,
+        threshold,
+      );
     this.circuitContext = context;
     return result;
   }
   public nextRound(): Ledger {
-    this.circuitContext = this.contract.impureCircuits.nextRound(this.circuitContext).context;
+    this.circuitContext = this.contract.impureCircuits.nextRound(
+      this.circuitContext,
+    ).context;
     return ledger(this.circuitContext.currentQueryContext.state);
   }
   public nullifier(): Uint8Array {
-    return this.contract.circuits.deriveNullifier(this.circuitContext, { bytes: this.getPrivateState().employeeSecret }).result;
+    return this.contract.circuits.deriveNullifier(this.circuitContext, {
+      bytes: this.getPrivateState().employeeSecret,
+    }).result;
   }
 }
