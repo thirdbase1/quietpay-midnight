@@ -18,8 +18,8 @@ export ledger _payrollRoot: Bytes<32>;
 export ledger _isFinalized: Boolean;
 export ledger _round: Counter;
 export ledger _usedNullifiers: Map<Bytes<32>, Boolean>;
-constructor(initialAdmin: AdminPublicKey) {
-    _admin = disclose(initialAdmin);
+constructor() {
+    _admin = disclose(deriveAdminPublicKey(getAdminSecret()));
     _totalFunded = 0;
     _totalClaimed = 0;
     _payrollRoot = pad(32, "quietpay:empty:v1");
