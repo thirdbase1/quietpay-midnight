@@ -17,3 +17,4 @@ Run inside the repo Codespace with Docker available. Local machine stays untouch
 ## 5 Record
 - Put contract address and all three tx hashes into README and AKINDO
 - Verify each hash on the public preprod explorer before submitting
+- CI must be green on main before deploying from it.
