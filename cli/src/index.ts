@@ -1,14 +1,14 @@
 // This file is part of midnightntwrk/example-quietpay.
 // Copyright (C) Midnight Foundation
 // SPDX-License-Identifier: Apache-2.0
-// Licensed under the Apache License, Version 2.0 (the "License");
+// Licensed under the Apache License, Version 2.0 (the 'License');
 // You may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
 // http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
+// distributed under the License is distributed on an 'AS IS' BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
@@ -125,10 +125,10 @@ const displayLedgerState = async (
   if (ledgerState === null) {
     logger.info(`There is no QuietPay payroll contract deployed at ${contractAddress}`);
   } else {
-    logger.info("Total funded is: " + ledgerState._totalFunded);
-    logger.info("Total claimed is: " + ledgerState._totalClaimed);
-    logger.info("Payroll root is: " + toHex(ledgerState._payrollRoot));
-    logger.info("Round finalized: " + ledgerState._isFinalized);
+    logger.info('Total funded is: ' + ledgerState._totalFunded);
+    logger.info('Total claimed is: ' + ledgerState._totalClaimed);
+    logger.info('Payroll root is: ' + toHex(ledgerState._payrollRoot));
+    logger.info('Round finalized: ' + ledgerState._isFinalized);
   }
 };
 
@@ -141,9 +141,9 @@ const displayPrivateState = async (providers: QuietPayProviders, logger: Logger)
   if (privateState === null) {
     logger.info(`There is no existing QuietPay payroll private state`);
   } else {
-    logger.info("Admin secret is: " + toHex(privateState.adminSecret));
-    logger.info("Employee secret is: " + toHex(privateState.employeeSecret));
-    logger.info("Claim amount is: " + privateState.claimAmount);
+    logger.info('Admin secret is: ' + toHex(privateState.adminSecret));
+    logger.info('Employee secret is: ' + toHex(privateState.employeeSecret));
+    logger.info('Claim amount is: ' + privateState.claimAmount);
   }
 };
 
@@ -158,11 +158,11 @@ const displayDerivedState = (ledgerState: QuietPayDerivedState | undefined, logg
   if (ledgerState === undefined) {
     logger.info(`No QuietPay payroll state currently available`);
   } else {
-    logger.info("Total funded is: " + ledgerState.totalFunded);
-    logger.info("Total claimed is: " + ledgerState.totalClaimed);
-    logger.info("Payroll root is: " + toHex(ledgerState.payrollRoot));
-    logger.info("Round finalized: " + ledgerState.isFinalized);
-    logger.info("You are: " + (ledgerState.isAdmin ? "the admin" : "not the admin"));
+    logger.info('Total funded is: ' + ledgerState.totalFunded);
+    logger.info('Total claimed is: ' + ledgerState.totalClaimed);
+    logger.info('Payroll root is: ' + toHex(ledgerState.payrollRoot));
+    logger.info('Round finalized: ' + ledgerState.isFinalized);
+    logger.info('You are: ' + (ledgerState.isAdmin ? 'the admin' : 'not the admin'));
   }
 };
 
@@ -200,39 +200,39 @@ const mainLoop = async (providers: QuietPayProviders, rli: Interface, logger: Lo
       const choice = await rli.question(MAIN_LOOP_QUESTION);
       try {
         switch (choice) {
-          case "1": {
-            const amount = await rli.question("How much to fund (mock units)? ");
+          case '1': {
+            const amount = await rli.question('How much to fund (mock units)? ');
             await quietpayApi.fund(BigInt(amount));
             break;
           }
-          case "2": {
-            const rootHex = await rli.question("Payroll root hex (64 chars)? ");
-            await quietpayApi.postRoot(Buffer.from(rootHex, "hex"));
+          case '2': {
+            const rootHex = await rli.question('Payroll root hex (64 chars)? ');
+            await quietpayApi.postRoot(Buffer.from(rootHex, 'hex'));
             break;
           }
-          case "3":
+          case '3':
             await quietpayApi.claim();
             break;
-          case "4": {
-            const threshold = await rli.question("Threshold to prove above? ");
+          case '4': {
+            const threshold = await rli.question('Threshold to prove above? ');
             const ok = await quietpayApi.proveIncomeAbove(BigInt(threshold));
-            logger.info("Income proof result: " + ok);
+            logger.info('Income proof result: ' + ok);
             break;
           }
-          case "5":
+          case '5':
             await quietpayApi.nextRound();
             break;
-          case "6":
+          case '6':
             await displayLedgerState(providers, quietpayApi.deployedContract, logger);
             break;
-          case "7":
+          case '7':
             await displayPrivateState(providers, logger);
             break;
-          case "8":
+          case '8':
             displayDerivedState(currentState, logger);
             break;
-          case "9":
-            logger.info("Exiting...");
+          case '9':
+            logger.info('Exiting...');
             return;
           default:
             logger.error(`Invalid choice: ${choice}`);
@@ -327,7 +327,7 @@ export const run = async (config: Config, testEnv: TestEnvironment, logger: Logg
       }
     }
 
-    const zkConfigProvider = new NodeZkConfigProvider<"fund" | "postRoot" | "claim" | "proveIncomeAbove" | "nextRound">(config.zkConfigPath);
+    const zkConfigProvider = new NodeZkConfigProvider<'fund' | 'postRoot' | 'claim' | 'proveIncomeAbove' | 'nextRound'>(config.zkConfigPath);
     const providers: QuietPayProviders = {
       privateStateProvider: levelPrivateStateProvider<PrivateStateId, QuietPayPrivateState>({
         privateStateStoreName: config.privateStateStoreName,
