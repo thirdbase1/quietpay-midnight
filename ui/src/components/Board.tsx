@@ -95,7 +95,7 @@ export const Board: React.FC<Readonly<BoardProps>> = ({ boardDeployment$ }) => {
     };
   }, [boardDeployment, setIsWorking, setErrorMessage, setDeployedBoardAPI]);
   return (
-    <Card sx={{ position: "relative", width: 340, minWidth: 340 }} color="primary">
+    <Card sx={{ position: "relative", width: 340, minWidth: 340, borderRadius: 16, border: "1px solid rgba(255,255,255,0.15)", background: "linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%)", boxShadow: "0 8px 32px 0 rgba(0,0,0,0.5)" }} color="primary">
       {!boardDeployment$ && (<EmptyCardContent onCreateBoardCallback={onCreateBoard} onJoinBoardCallback={onJoinBoard} />)}
       {boardDeployment$ && (<React.Fragment>
         <Backdrop sx={{ position: "absolute", color: "#fff", zIndex: 10 }} open={isWorking}>
