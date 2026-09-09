@@ -12,3 +12,6 @@
 - [ ] Description of Wave 1 progress on AKINDO page
 - [ ] Submit a day early Sep 15
 Join Discord https://discord.gg/SUZNRF6fu for support.
+Completed contract witnesses configs and test plan.
+Completed pitch demo architecture security and FAQ.
+Remaining push submit compile video before Sep 15.
