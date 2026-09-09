@@ -64,11 +64,10 @@ export class QuietPaySimulator {
     return ledger(this.circuitContext.currentQueryContext.state);
   }
   public proveIncomeAbove(threshold: bigint): boolean {
-    const { context, result } =
-      this.contract.impureCircuits.proveIncomeAbove(
-        this.circuitContext,
-        threshold,
-      );
+    const { context, result } = this.contract.impureCircuits.proveIncomeAbove(
+      this.circuitContext,
+      threshold,
+    );
     this.circuitContext = context;
     return result;
   }

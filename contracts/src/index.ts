@@ -23,7 +23,8 @@ import * as Witnesses from "./witnesses";
 
 export const CompiledQuietPayContractContract = CompiledContract.make<
   CompiledQuietPayContract.Contract<Witnesses.QuietPayPrivateState>
->("QuietPay",
+>(
+  "QuietPay",
   CompiledQuietPayContract.Contract<Witnesses.QuietPayPrivateState>,
 ).pipe(
   CompiledContract.withWitnesses(Witnesses.witnesses),
