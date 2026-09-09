@@ -87,7 +87,11 @@ You can do one of the following:
   3. Exit
 Which would you like to do? `;
 
-const deployOrJoin = async (providers: QuietPayProviders, rli: Interface, logger: Logger): Promise<QuietPayAPI | null> => {
+const deployOrJoin = async (
+  providers: QuietPayProviders,
+  rli: Interface,
+  logger: Logger,
+): Promise<QuietPayAPI | null> => {
   let api: QuietPayAPI | null = null;
 
   while (true) {
@@ -327,7 +331,9 @@ export const run = async (config: Config, testEnv: TestEnvironment, logger: Logg
       }
     }
 
-    const zkConfigProvider = new NodeZkConfigProvider<'fund' | 'postRoot' | 'claim' | 'proveIncomeAbove' | 'nextRound'>(config.zkConfigPath);
+    const zkConfigProvider = new NodeZkConfigProvider<'fund' | 'postRoot' | 'claim' | 'proveIncomeAbove' | 'nextRound'>(
+      config.zkConfigPath,
+    );
     const providers: QuietPayProviders = {
       privateStateProvider: levelPrivateStateProvider<PrivateStateId, QuietPayPrivateState>({
         privateStateStoreName: config.privateStateStoreName,
