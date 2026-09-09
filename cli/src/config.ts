@@ -39,7 +39,7 @@ export class StandaloneConfig implements Config {
   }
   privateStateStoreName = 'quietpay-private-state';
   logDir = path.resolve(currentDir, '..', 'logs', 'standalone', `${new Date().toISOString()}.log`);
-  zkConfigPath = path.resolve(currentDir, '..', '..', 'contract', 'src', 'managed', 'quietpay');
+  zkConfigPath = path.resolve(currentDir, '..', '..', 'contracts', 'src', 'managed', 'quietpay');
   generateDust = false;
 }
 
@@ -50,7 +50,7 @@ export class PreviewRemoteConfig implements Config {
   }
   privateStateStoreName = 'quietpay-private-state';
   logDir = path.resolve(currentDir, '..', 'logs', 'preview-remote', `${new Date().toISOString()}.log`);
-  zkConfigPath = path.resolve(currentDir, '..', '..', 'contract', 'src', 'managed', 'quietpay');
+  zkConfigPath = path.resolve(currentDir, '..', '..', 'contracts', 'src', 'managed', 'quietpay');
   generateDust = true;
 }
 
@@ -61,7 +61,7 @@ export class PreprodRemoteConfig implements Config {
   }
   privateStateStoreName = 'quietpay-private-state';
   logDir = path.resolve(currentDir, '..', 'logs', 'preprod-remote', `${new Date().toISOString()}.log`);
-  zkConfigPath = path.resolve(currentDir, '..', '..', 'contract', 'src', 'managed', 'quietpay');
+  zkConfigPath = path.resolve(currentDir, '..', '..', 'contracts', 'src', 'managed', 'quietpay');
   generateDust = true;
 }
 
