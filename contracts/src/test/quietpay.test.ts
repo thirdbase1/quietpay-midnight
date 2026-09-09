@@ -29,11 +29,15 @@ describe("QuietPay smart contract", () => {
     const secret = randomBytes(32);
     const sim0 = new QuietPaySimulator(makeState(secret, randomBytes(32), 0n));
     const sim1 = new QuietPaySimulator(makeState(secret, randomBytes(32), 0n));
-    expect(sim0.getLedger()).toEqual(sim1.getLedger());
+    const stable = (ledger: unknown): string =>
+      JSON.stringify(ledger, (_, value) =>
+        typeof value === "bigint" ? value.toString() : value,
+      );
+    expect(stable(sim0.getLedger())).toEqual(stable(sim1.getLedger()));
   });
   it("starts unfunded and unfinalized", () => {
     const sim = new QuietPaySimulator(
-      makeState(randomBytes(32), randomBytes(32), 0n),
+      makeState(secret, randomBytes(32), 0n),
     );
     const ledger = sim.getLedger();
     expect(ledger._totalFunded).toEqual(0n);
@@ -80,7 +84,7 @@ describe("QuietPay smart contract", () => {
   });
   it("rejects admin actions from non-admin callers", () => {
     const sim = new QuietPaySimulator(
-      makeState(randomBytes(32), randomBytes(32), 0n),
+      makeState(secret, randomBytes(32), 0n),
     );
     sim.switchPrivateState(makeState(randomBytes(32), randomBytes(32), 0n));
     expect(() => sim.fund(100n)).toThrow();
