@@ -40,7 +40,8 @@ export class QuietPayAPI implements DeployedQuietPayAPI {
             logger?.trace({
               ledgerStateChanged: {
                 totalFunded: ledgerState._totalFunded.toString(),
-                totalClaimed: ledgerState._totalClaimed.toString(), isFinalized: ledgerState._isFinalized,
+                totalClaimed: ledgerState._totalClaimed.toString(),
+                isFinalized: ledgerState._isFinalized,
               },
             }),
           ),
