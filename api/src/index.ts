@@ -37,7 +37,12 @@ export class QuietPayAPI implements DeployedQuietPayAPI {
         providers.publicDataProvider.contractStateObservable(this.deployedContractAddress, { type: 'latest' }).pipe(
           map((contractState) => QuietPay.ledger(contractState.data)),
           tap((ledgerState) =>
-            logger?.trace({ ledgerStateChanged: { totalFunded: ledgerState._totalFunded.toString(), totalClaimed: ledgerState._totalClaimed.toString(), isFinalized: ledgerState._isFinalized } }),
+            logger?.trace({
+              ledgerStateChanged: {
+                totalFunded: ledgerState._totalFunded.toString(),
+                totalClaimed: ledgerState._totalClaimed.toString(), isFinalized: ledgerState._isFinalized,
+              },
+            }),
           ),
         ),
         from(providers.privateStateProvider.get(quietpayPrivateStateKey) as Promise<QuietPayPrivateState>),
@@ -59,17 +64,35 @@ export class QuietPayAPI implements DeployedQuietPayAPI {
   async fund(amount: bigint): Promise<void> {
     this.logger?.info('fundingVault');
     const txData = await this.deployedContract.callTx.fund(amount);
-    this.logger?.trace({ transactionAdded: { circuit: 'fund', txHash: txData.public.txHash, blockHeight: txData.public.blockHeight } });
+    this.logger?.trace({
+      transactionAdded: {
+        circuit: 'fund',
+        txHash: txData.public.txHash,
+        blockHeight: txData.public.blockHeight,
+      },
+    });
   }
   async postRoot(root: Uint8Array): Promise<void> {
     this.logger?.info('postingPayrollRoot');
     const txData = await this.deployedContract.callTx.postRoot(root);
-    this.logger?.trace({ transactionAdded: { circuit: 'postRoot', txHash: txData.public.txHash, blockHeight: txData.public.blockHeight } });
+    this.logger?.trace({
+      transactionAdded: {
+        circuit: 'postRoot',
+        txHash: txData.public.txHash,
+        blockHeight: txData.public.blockHeight,
+      },
+    });
   }
   async claim(): Promise<void> {
     this.logger?.info('claimingPay');
     const txData = await this.deployedContract.callTx.claim();
-    this.logger?.trace({ transactionAdded: { circuit: 'claim', txHash: txData.public.txHash, blockHeight: txData.public.blockHeight } });
+    this.logger?.trace({
+      transactionAdded: {
+        circuit: 'claim',
+        txHash: txData.public.txHash,
+        blockHeight: txData.public.blockHeight,
+      },
+    });
   }
   async proveIncomeAbove(threshold: bigint): Promise<boolean> {
     this.logger?.info('provingIncomeAbove');
@@ -79,7 +102,13 @@ export class QuietPayAPI implements DeployedQuietPayAPI {
   async nextRound(): Promise<void> {
     this.logger?.info('openingNextRound');
     const txData = await this.deployedContract.callTx.nextRound();
-    this.logger?.trace({ transactionAdded: { circuit: 'nextRound', txHash: txData.public.txHash, blockHeight: txData.public.blockHeight } });
+    this.logger?.trace({
+      transactionAdded: {
+        circuit: 'nextRound',
+        txHash: txData.public.txHash,
+        blockHeight: txData.public.blockHeight,
+      },
+    });
   }
   static async deploy(providers: QuietPayProviders, logger?: Logger): Promise<QuietPayAPI> {
     logger?.info('deployContract');
@@ -91,7 +120,11 @@ export class QuietPayAPI implements DeployedQuietPayAPI {
     logger?.trace({ contractDeployed: { finalizedDeployTxData: deployedQuietPayContract.deployTxData.public } });
     return new QuietPayAPI(deployedQuietPayContract, providers, logger);
   }
-  static async join(providers: QuietPayProviders, contractAddress: ContractAddress, logger?: Logger): Promise<QuietPayAPI> {
+  static async join(
+    providers: QuietPayProviders,
+    contractAddress: ContractAddress,
+    logger?: Logger,
+  ): Promise<QuietPayAPI> {
     logger?.info({ joinContract: { contractAddress } });
     const deployedQuietPayContract = await findDeployedContract<QuietPayContract>(providers, {
       contractAddress,
@@ -102,7 +135,10 @@ export class QuietPayAPI implements DeployedQuietPayAPI {
     logger?.trace({ contractJoined: { finalizedDeployTxData: deployedQuietPayContract.deployTxData.public } });
     return new QuietPayAPI(deployedQuietPayContract, providers, logger);
   }
-  private static async getPrivateState(providers: QuietPayProviders, contractAddress: ContractAddress): Promise<QuietPayPrivateState> {
+  private static async getPrivateState(
+    providers: QuietPayProviders,
+    contractAddress: ContractAddress,
+  ): Promise<QuietPayPrivateState> {
     providers.privateStateProvider.setContractAddress(contractAddress);
     const existingPrivateState = await providers.privateStateProvider.get(quietpayPrivateStateKey);
     return existingPrivateState ?? createQuietPayPrivateState(utils.randomBytes(32));
