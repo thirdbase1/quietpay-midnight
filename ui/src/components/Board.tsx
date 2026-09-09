@@ -108,8 +108,8 @@ export const Board: React.FC<Readonly<BoardProps>> = ({ boardDeployment$ }) => {
         <CardHeader avatar={boardState ? (boardState.isFinalized ? (<LockIcon data-testid="post-locked-icon" />) : (<LockOpenIcon data-testid="post-unlocked-icon" />)) : (<Skeleton variant="circular" width={20} height={20} />)} titleTypographyProps={{ color: "primary" }} title={toShortFormatContractAddress(deployedBoardAPI?.deployedContractAddress) ?? "Loading..."} action={deployedBoardAPI?.deployedContractAddress ? (<IconButton title="Copy contract address" onClick={onCopyContractAddress}><CopyIcon fontSize="small" /></IconButton>) : (<Skeleton variant="circular" width={20} height={20} />)} />
         <CardContent>
           {boardState ? (<React.Fragment>
-            <Typography color="primary">Total funded: {boardState.totalFunded.toString()}</Typography>
-            <Typography color="primary">Total claimed: {boardState.totalClaimed.toString()}</Typography>
+            <Typography color="primary" sx={{ fontVariantNumeric: "tabular-nums" }}>Total funded: {boardState.totalFunded.toString()}</Typography>
+            <Typography color="primary" sx={{ fontVariantNumeric: "tabular-nums" }}>Total claimed: {boardState.totalClaimed.toString()}</Typography>
             <Typography color="primary">Root: {toHex(boardState.payrollRoot).slice(0, 24)}...</Typography>
             <Typography color="primary">Finalized: {boardState.isFinalized ? "yes" : "no"}</Typography>
             <Typography color="primary">Role: {boardState.isAdmin ? "admin" : "employee"}</Typography>
@@ -121,11 +121,11 @@ export const Board: React.FC<Readonly<BoardProps>> = ({ boardDeployment$ }) => {
         </CardContent>
         <CardActions>
           {deployedBoardAPI ? (<React.Fragment>
-            <Button data-testid="fund-btn" onClick={onFund}>Fund</Button>
-            <Button data-testid="post-root-btn" onClick={onPostRoot}>Post root</Button>
-            <Button data-testid="claim-btn" onClick={onClaim}>Claim</Button>
-            <Button data-testid="prove-btn" onClick={onProve}>Prove</Button>
-            <Button data-testid="next-round-btn" onClick={onNextRound}>Next</Button>
+            <Button variant="contained" color="primary" data-testid="fund-btn" onClick={onFund}>Fund</Button>
+            <Button variant="outlined" data-testid="post-root-btn" onClick={onPostRoot}>Post root</Button>
+            <Button variant="contained" color="secondary" data-testid="claim-btn" onClick={onClaim}>Claim</Button>
+            <Button variant="outlined" data-testid="prove-btn" onClick={onProve}>Prove</Button>
+            <Button variant="outlined" data-testid="next-round-btn" onClick={onNextRound}>Next</Button>
           </React.Fragment>) : (<Skeleton variant="rectangular" width={80} height={20} />)}
         </CardActions>
       </React.Fragment>)}
