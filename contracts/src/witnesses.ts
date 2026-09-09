@@ -1,10 +1,18 @@
 // QuietPay witnesses - Apache-2.0
+import { Ledger } from "./managed/quietpay/contract/index.js";
 import { WitnessContext } from "@midnight-ntwrk/midnight-js-protocol/compact-runtime";
-import type { Ledger } from "./managed/quietpay/contract/index.js";
-export type QuietPayPrivateState = { adminSecret: Uint8Array; employeeSecret: Uint8Array; claimAmount: bigint };
-export const createQuietPayPrivateState = (secret: Uint8Array) => ({ adminSecret: secret, employeeSecret: secret, claimAmount: 0n });
+export type QuietPayPrivateState = {
+  readonly adminSecret: Uint8Array;
+  readonly employeeSecret: Uint8Array;
+  readonly claimAmount: bigint;
+};
+export const createQuietPayPrivateState = (secret: Uint8Array): QuietPayPrivateState => ({
+  adminSecret: secret,
+  employeeSecret: secret,
+  claimAmount: 0n,
+});
 export const witnesses = {
-getAdminSecret: (ctx: any) => [ctx.privateState, { bytes: ctx.privateState.adminSecret }],
-getEmployeeSecret: (ctx: any) => [ctx.privateState, { bytes: ctx.privateState.employeeSecret }],
-getClaimAmount: (ctx: any) => [ctx.privateState, { amount: ctx.privateState.claimAmount }],
+  getAdminSecret: ({ privateState }: WitnessContext<Ledger, QuietPayPrivateState>): [QuietPayPrivateState, { bytes: Uint8Array }] => [privateState, { bytes: privateState.adminSecret }],
+  getEmployeeSecret: ({ privateState }: WitnessContext<Ledger, QuietPayPrivateState>): [QuietPayPrivateState, { bytes: Uint8Array }] => [privateState, { bytes: privateState.employeeSecret }],
+  getClaimAmount: ({ privateState }: WitnessContext<Ledger, QuietPayPrivateState>): [QuietPayPrivateState, { amount: bigint }] => [privateState, { amount: privateState.claimAmount }],
 };
