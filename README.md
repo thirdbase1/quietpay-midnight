@@ -24,3 +24,8 @@ Single-round payroll with nullifier claims and threshold proofs.
 Mock tokens only, no real value. On-chain attestation verify moves to Wave 2.
 ## License
 Apache-2.0 for new Midnight code. See LICENSE.
+## Repo guide
+- Start with FILEMAP then JUDGING MAP then COUNTDOWN
+- Contract details live in contracts README and COMPILE NOTES
+- Demo path is VIDEO SCRIPT plus DEMO STEPS plus SHOTLIST
+Status is Wave 1 draft ready for push compile and video.
