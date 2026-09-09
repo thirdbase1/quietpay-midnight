@@ -1,3 +1,5 @@
+[![CI](https://github.com/thirdbase1/quietpay-midnight/actions/workflows/ci.yaml/badge.svg)](https://github.com/thirdbase1/quietpay-midnight/actions)
+
 # QuietPay - Private Payroll and Income Attestations on Midnight
 > This project is built on the Midnight Network.
 ## One-liner
