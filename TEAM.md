@@ -1,5 +1,5 @@
 # QuietPay team sheet
-Lead name GitHub handle and AKINDO profile link here.
+Lead GitHub handle thirdbase1 with AKINDO profile link to add.
 Member 2 name GitHub handle and role here.
 Member 3 name GitHub handle and role here.
 All members register solo on AKINDO before Sep 16.
