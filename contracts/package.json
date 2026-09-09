@@ -1,9 +1,11 @@
 {
-  \"name\": \"quietpay-contract\",
-  \"type\": \"module\",
-  \"scripts\": {
-    \"compact\": \"compact compile src/quietpay.compact ./src/managed/quietpay\",
-    \"build\": \"tsc --project tsconfig.build.json\",
-    \"test\": \"vitest\"
+  "name": "quietpay-contract",
+  "version": "0.1.0",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "compact": "compact compile src/quietpay.compact ./src/managed/quietpay",
+    "build": "tsc --project tsconfig.build.json",
+    "test": "vitest"
   }
 }
