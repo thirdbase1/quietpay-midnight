@@ -48,18 +48,17 @@ export circuit postRoot(newRoot: Bytes<32>): [] {
     _payrollRoot = disclose(newRoot);
     _isFinalized = true;
 }
-export circuit claim(presentedNullifier: Bytes<32>): [] {
+export circuit claim(): [] {
     assert(_isFinalized == true, "Round not open for claims");
-    assert(!_usedNullifiers.member(disclose(presentedNullifier)), "Nullifier already used");
     const expected: Bytes<32> = deriveNullifier(getEmployeeSecret());
-    assert(presentedNullifier == expected, "Nullifier mismatch");
+    assert(!_usedNullifiers.member(disclose(expected)), "Nullifier already used");
     const amt: Uint<128> = getClaimAmount().amount;
     assert(amt >= 1, "Claim must be positive");
     const MAX_U128B: Uint<128> = 340282366920938463463374607431768211455 as Uint<128>;
     assert(_totalClaimed <= MAX_U128B - amt, "Claim overflow");
     const newClaimed: Uint<128> = (_totalClaimed + amt) as Uint<128>;
     assert(newClaimed <= _totalFunded, "Claims exceed funded total");
-    _usedNullifiers.insert(disclose(presentedNullifier), disclose(true));
+    _usedNullifiers.insert(disclose(expected), disclose(true));
     _totalClaimed = disclose(newClaimed);
 }
 export circuit proveIncomeAbove(threshold: Uint<128>): Boolean {
