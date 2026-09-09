@@ -1,40 +1,25 @@
-// This file is part of midnightntwrk/example-quietpay.
-// Copyright (C) Midnight Foundation
-// SPDX-License-Identifier: Apache-2.0
-// Licensed under the Apache License, Version 2.0 (the "License");
-// You may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
-import { createTheme, alpha } from '@mui/material';
-
-const midnightGrey = alpha('#a8a8a8', 0.7);
-
+// QuietPay console theme - Apache-2.0
+import { createTheme } from "@mui/material";
 export const theme = createTheme({
-  typography: {
-    fontFamily: 'Helvetica',
-    allVariants: {
-      color: 'white',
-    },
-  },
   palette: {
-    primary: {
-      main: midnightGrey,
-      light: alpha(midnightGrey, 0.5),
-      dark: alpha(midnightGrey, 0.9),
-    },
-    secondary: {
-      main: '#8c8c8c',
-    },
-    background: {
-      default: '#464655',
-    },
+    mode: "dark",
+    background: { default: "#0A0C0D", paper: "#121517" },
+    primary: { main: "#EDEFEA", contrastText: "#0A0C0D" },
+    secondary: { main: "#34D399" },
+    success: { main: "#34D399" },
+    warning: { main: "#E8B44A" },
+    error: { main: "#F2555A" },
+    text: { primary: "#F2F4F3", secondary: "#98A1A6" },
+    divider: "rgba(255, 255, 255, 0.08)",
+  },
+  typography: {
+    fontFamily: ["Inter", "system-ui", "-apple-system", "Segoe UI", "Roboto", "sans-serif"].join(","),
+    button: { textTransform: "none", fontWeight: 600 },
+  },
+  shape: { borderRadius: 8 },
+  components: {
+    MuiCard: { styleOverrides: { root: { backgroundColor: "#121517", border: "1px solid rgba(255,255,255,0.08)" } } },
+    MuiTextField: { styleOverrides: { root: { marginTop: 8 } } },
+    MuiButton: { styleOverrides: { root: { marginRight: 8, marginTop: 8 } } },
   },
 });
