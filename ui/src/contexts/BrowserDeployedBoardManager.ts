@@ -49,7 +49,7 @@ import {
   Transaction,
   TransactionId,
 } from '@midnight-ntwrk/midnight-js-protocol/ledger';
-import { QuietPayPrivateState } from '@midnight-ntwrk/quietpay-contract';
+import { QuietPayPrivateState } from '@quietpay/contract';
 import { inMemoryPrivateStateProvider } from '../in-memory-private-state-provider';
 import { NetworkId } from '@midnight-ntwrk/midnight-js-network-id';
 import type { UnboundTransaction } from '@midnight-ntwrk/midnight-js-types';

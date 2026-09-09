@@ -23,7 +23,7 @@ export const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: { marginRight: 8, marginTop: 8, borderRadius: 12 },
-        containedPrimary: { boxShadow: '0 4px 20px -1px rgba(249,115,22,0.3)' },
+        contained: { boxShadow: '0 4px 20px -1px rgba(249,115,22,0.3)' },
       },
     },
   },
