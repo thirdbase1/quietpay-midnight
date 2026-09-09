@@ -1,20 +1,20 @@
 // QuietPay API - Apache-2.0
-import * as QuietPay from "../../contracts/src/managed/quietpay/contract/index.js";
-import { type ContractAddress } from "@midnight-ntwrk/midnight-js-protocol/compact-runtime";
-import { type Logger } from "pino";
+import * as QuietPay from '../../contracts/src/managed/quietpay/contract/index.js';
+import { type ContractAddress } from '@midnight-ntwrk/midnight-js-protocol/compact-runtime';
+import { type Logger } from 'pino';
 import {
   type QuietPayDerivedState,
   type QuietPayContract,
   type QuietPayProviders,
   type DeployedQuietPayContract,
   quietpayPrivateStateKey,
-} from "./common-types.js";
-import { CompiledQuietPayContractContract } from "../../contracts/src/index";
-import * as utils from "./utils/index.js";
-import { deployContract, findDeployedContract } from "@midnight-ntwrk/midnight-js-contracts";
-import { combineLatest, map, tap, from, type Observable } from "rxjs";
-import { toHex } from "@midnight-ntwrk/midnight-js-utils";
-import { QuietPayPrivateState, createQuietPayPrivateState } from "../../contracts/src/witnesses.js";
+} from './common-types.js';
+import { CompiledQuietPayContractContract } from '../../contracts/src/index';
+import * as utils from './utils/index.js';
+import { deployContract, findDeployedContract } from '@midnight-ntwrk/midnight-js-contracts';
+import { combineLatest, map, tap, from, type Observable } from 'rxjs';
+import { toHex } from '@midnight-ntwrk/midnight-js-utils';
+import { QuietPayPrivateState, createQuietPayPrivateState } from '../../contracts/src/witnesses.js';
 export interface DeployedQuietPayAPI {
   readonly deployedContractAddress: ContractAddress;
   readonly state$: Observable<QuietPayDerivedState>;
@@ -34,7 +34,7 @@ export class QuietPayAPI implements DeployedQuietPayAPI {
     providers.privateStateProvider.setContractAddress(this.deployedContractAddress);
     this.state$ = combineLatest(
       [
-        providers.publicDataProvider.contractStateObservable(this.deployedContractAddress, { type: "latest" }).pipe(
+        providers.publicDataProvider.contractStateObservable(this.deployedContractAddress, { type: 'latest' }).pipe(
           map((contractState) => QuietPay.ledger(contractState.data)),
           tap((ledgerState) =>
             logger?.trace({ ledgerStateChanged: { totalFunded: ledgerState._totalFunded.toString(), totalClaimed: ledgerState._totalClaimed.toString(), isFinalized: ledgerState._isFinalized } }),
@@ -57,32 +57,32 @@ export class QuietPayAPI implements DeployedQuietPayAPI {
   readonly deployedContractAddress: ContractAddress;
   readonly state$: Observable<QuietPayDerivedState>;
   async fund(amount: bigint): Promise<void> {
-    this.logger?.info("fundingVault");
+    this.logger?.info('fundingVault');
     const txData = await this.deployedContract.callTx.fund(amount);
-    this.logger?.trace({ transactionAdded: { circuit: "fund", txHash: txData.public.txHash, blockHeight: txData.public.blockHeight } });
+    this.logger?.trace({ transactionAdded: { circuit: 'fund', txHash: txData.public.txHash, blockHeight: txData.public.blockHeight } });
   }
   async postRoot(root: Uint8Array): Promise<void> {
-    this.logger?.info("postingPayrollRoot");
+    this.logger?.info('postingPayrollRoot');
     const txData = await this.deployedContract.callTx.postRoot(root);
-    this.logger?.trace({ transactionAdded: { circuit: "postRoot", txHash: txData.public.txHash, blockHeight: txData.public.blockHeight } });
+    this.logger?.trace({ transactionAdded: { circuit: 'postRoot', txHash: txData.public.txHash, blockHeight: txData.public.blockHeight } });
   }
   async claim(): Promise<void> {
-    this.logger?.info("claimingPay");
+    this.logger?.info('claimingPay');
     const txData = await this.deployedContract.callTx.claim();
-    this.logger?.trace({ transactionAdded: { circuit: "claim", txHash: txData.public.txHash, blockHeight: txData.public.blockHeight } });
+    this.logger?.trace({ transactionAdded: { circuit: 'claim', txHash: txData.public.txHash, blockHeight: txData.public.blockHeight } });
   }
   async proveIncomeAbove(threshold: bigint): Promise<boolean> {
-    this.logger?.info("provingIncomeAbove");
+    this.logger?.info('provingIncomeAbove');
     const result = await this.deployedContract.callTx.proveIncomeAbove(threshold);
     return result.private.result;
   }
   async nextRound(): Promise<void> {
-    this.logger?.info("openingNextRound");
+    this.logger?.info('openingNextRound');
     const txData = await this.deployedContract.callTx.nextRound();
-    this.logger?.trace({ transactionAdded: { circuit: "nextRound", txHash: txData.public.txHash, blockHeight: txData.public.blockHeight } });
+    this.logger?.trace({ transactionAdded: { circuit: 'nextRound', txHash: txData.public.txHash, blockHeight: txData.public.blockHeight } });
   }
   static async deploy(providers: QuietPayProviders, logger?: Logger): Promise<QuietPayAPI> {
-    logger?.info("deployContract");
+    logger?.info('deployContract');
     const deployedQuietPayContract = await deployContract(providers, {
       compiledContract: CompiledQuietPayContractContract,
       privateStateId: quietpayPrivateStateKey,
@@ -108,5 +108,5 @@ export class QuietPayAPI implements DeployedQuietPayAPI {
     return existingPrivateState ?? createQuietPayPrivateState(utils.randomBytes(32));
   }
 }
-export * as utils from "./utils/index.js";
-export * from "./common-types.js";
+export * as utils from './utils/index.js';
+export * from './common-types.js';
