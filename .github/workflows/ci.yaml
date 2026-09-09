@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: 24
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: npm install --legacy-peer-deps
       - name: Compile and test contract
         working-directory: contracts
         run: npm run ci
