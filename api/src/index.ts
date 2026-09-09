@@ -74,7 +74,7 @@ export class QuietPayAPI implements DeployedQuietPayAPI {
   async proveIncomeAbove(threshold: bigint): Promise<boolean> {
     this.logger?.info("provingIncomeAbove");
     const result = await this.deployedContract.callTx.proveIncomeAbove(threshold);
-    return result.public.result;
+    return result.private.result;
   }
   async nextRound(): Promise<void> {
     this.logger?.info("openingNextRound");

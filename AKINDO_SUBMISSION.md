@@ -19,3 +19,13 @@ Mock tokens only. Apache-2.0. New Midnight code built Sep 8 to 15.
 See PROGRESS STATEMENT for Wave 1 proof of work.
 See JUDGING MAP for criterion evidence links.
 Contact via TEAM sheet after repo push.
+## Conservation guarantee
+Total claimed never exceeds total funded, enforced inside every claim circuit.
+Equation: claimedTotal <= fundedTotal holds after every transaction.
+Each nullifier binds to one employee secret, so no salary can be claimed twice.
+## Honest caveats
+Wave 1 uses mock tokens with no real value.
+Nullifier binding is single round, multi round binding ships in Wave 2.
+Threshold proofs reveal only a boolean, amounts stay sealed.
+Public claim counts may reveal team size.
+No external audit yet, circuits are new code under review.
