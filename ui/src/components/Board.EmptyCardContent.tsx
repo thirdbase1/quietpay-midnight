@@ -10,29 +10,49 @@ export interface EmptyCardContentProps {
   onCreateBoardCallback: () => void;
   onJoinBoardCallback: (contractAddress: ContractAddress) => void;
 }
-export const EmptyCardContent: React.FC<Readonly<EmptyCardContentProps>> = ({ onCreateBoardCallback, onJoinBoardCallback }) => {
+export const EmptyCardContent: React.FC<Readonly<EmptyCardContentProps>> = ({
+  onCreateBoardCallback,
+  onJoinBoardCallback,
+}) => {
   const [textPromptOpen, setTextPromptOpen] = useState(false);
   return (
     <React.Fragment>
       <CardContent>
-        <Typography align='center' variant='h1' color='text.secondary'>
-          <VaultAddIcon fontSize='large' />
+        <Typography align="center" variant="h1" color="text.secondary">
+          <VaultAddIcon fontSize="large" />
         </Typography>
-        <Typography data-testid='board-posted-message' align='center' variant='body2' color='text.secondary'>Deploy a new payroll vault, or join one by address...</Typography>
+        <Typography data-testid="board-posted-message" align="center" variant="body2" color="text.secondary">
+          Deploy a new payroll vault, or join one by address...
+        </Typography>
       </CardContent>
       <CardActions disableSpacing sx={{ justifyContent: 'center' }}>
-        <Tooltip title='Deploy a new vault'>
-          <IconButton data-testid='board-deploy-btn' onClick={onCreateBoardCallback}>
+        <Tooltip title="Deploy a new vault">
+          <IconButton data-testid="board-deploy-btn" onClick={onCreateBoardCallback}>
             <CreateVaultIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip title='Join a vault by address'>
-          <IconButton data-testid='board-join-btn' onClick={() => { setTextPromptOpen(true); }}>
+        <Tooltip title="Join a vault by address">
+          <IconButton
+            data-testid="board-join-btn"
+            onClick={() => {
+              setTextPromptOpen(true);
+            }}
+          >
             <JoinVaultIcon />
           </IconButton>
         </Tooltip>
       </CardActions>
-      <TextPromptDialog prompt='Enter contract address' isOpen={textPromptOpen} onCancel={() => { setTextPromptOpen(false); }} onSubmit={(text) => { setTextPromptOpen(false); onJoinBoardCallback(text); }} />
+      <TextPromptDialog
+        prompt="Enter contract address"
+        isOpen={textPromptOpen}
+        onCancel={() => {
+          setTextPromptOpen(false);
+        }}
+        onSubmit={(text) => {
+          setTextPromptOpen(false);
+          onJoinBoardCallback(text);
+        }}
+      />
     </React.Fragment>
   );
 };

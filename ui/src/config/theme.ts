@@ -18,7 +18,16 @@ export const theme = createTheme({
   },
   shape: { borderRadius: 12 },
   components: {
-    MuiCard: { styleOverrides: { root: { backgroundColor: '#09090b', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 16, boxShadow: '0 8px 32px 0 rgba(0,0,0,0.5)' } } },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#09090b',
+          border: '1px solid rgba(255,255,255,0.12)',
+          borderRadius: 16,
+          boxShadow: '0 8px 32px 0 rgba(0,0,0,0.5)',
+        },
+      },
+    },
     MuiTextField: { styleOverrides: { root: { marginTop: 8 } } },
     MuiButton: {
       styleOverrides: {
