@@ -220,7 +220,7 @@ export class BrowserDeployedBoardManager implements DeployedBoardAPIProvider {
 const initializeProviders = async (logger: Logger): Promise<QuietPayProviders> => {
   const networkId = import.meta.env.VITE_NETWORK_ID as NetworkId;
   const connectedAPI = await connectToWallet(logger, networkId);
-  const zkConfigPath = window.location.origin; // '../../../contract/src/managed/quietpay';
+  const zkConfigPath = window.location.origin; // '../../../contracts/src/managed/quietpay';
   const keyMaterialProvider = new FetchZkConfigProvider<QuietPayCircuitKeys>(zkConfigPath, fetch.bind(window));
   const config = await connectedAPI.getConfiguration();
   const inMemoryQuietPayPrivateStateProvider = inMemoryPrivateStateProvider<string, QuietPayPrivateState>();
